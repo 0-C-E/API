@@ -1,3 +1,10 @@
+"""
+File: app.py
+Author: Vianney Veremme
+Date: 2024-11-11
+Description: This file contains a simple Flask application with two routes.
+"""
+
 import time
 
 from flask import Flask, jsonify, redirect
