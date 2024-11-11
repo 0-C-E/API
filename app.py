@@ -20,3 +20,7 @@ def home():
 @app.route("/time", methods=["GET"])
 def server_time():
     return jsonify(server_time=time.strftime("%H:%M:%S %d/%m/%Y"))
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
