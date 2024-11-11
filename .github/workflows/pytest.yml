@@ -2,6 +2,7 @@
 name: Pytest
 
 on:
+    workflow_dispatch:
     push:
         paths:
             - "**/*.py"
