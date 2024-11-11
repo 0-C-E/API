@@ -14,5 +14,9 @@
         "editor.codeActionsOnSave": {
             "source.organizeImports": "explicit"
         }
-    }
+    },
+    "isort.args": [
+        "--profile",
+        "black"
+    ]
 }
