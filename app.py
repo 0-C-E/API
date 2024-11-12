@@ -9,6 +9,8 @@ import time
 
 from flask import Flask, jsonify, redirect
 
+from routes import register_routes
+
 app = Flask(__name__)
 
 
@@ -21,6 +23,9 @@ def home():
 def server_time():
     return jsonify(server_time=time.strftime("%H:%M:%S %d/%m/%Y"))
 
+
+# Register all routes
+register_routes(app)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
