@@ -27,7 +27,7 @@ To run the API locally, you’ll need:
    ```
 2. **Run the Docker Container**:
    ```bash
-   docker run -p 5000:5000 --name 0CE_API 0ce-flask-api
+   docker run -d -p 5000:5000 --name 0CE_API 0ce-flask-api
    ```
 3. **Access the API**:
    Open your browser or API client to `http://localhost:5000`.
