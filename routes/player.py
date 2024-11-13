@@ -57,7 +57,13 @@ def get_player_cities(player_id):
 
     db = get_db_connection()
     with db.cursor() as cursor:
-        cursor.callproc("get_player_cities", (player_id,))
+        cursor.callproc(
+            "get_player_cities",
+            (
+                world,
+                player_id,
+            ),
+        )
         cities = cursor.fetchall()
     db.close()
 
