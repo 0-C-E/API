@@ -23,7 +23,7 @@ def home():
 
 @app.route("/time", methods=["GET"])
 def server_time():
-    return jsonify(server_time=datetime.datetime.now())
+    return jsonify(server_time=datetime.datetime.now().isoformat())
 
 
 # Register all routes
