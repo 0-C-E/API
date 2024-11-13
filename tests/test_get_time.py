@@ -18,7 +18,7 @@ def test_get_time(client, fixed_time):
     with patch("time.strftime", return_value=fixed_time):
         response = client.get("/time")
         assert response.status_code == 200
-        assert response.json == {"server_time": fixed_time}
+        assert response.json == {"success": True, "server_time": fixed_time}
 
 
 def test_time_format(client):
