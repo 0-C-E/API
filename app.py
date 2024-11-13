@@ -5,7 +5,7 @@ Date: 2024-11-11
 Description: This file contains a simple Flask application with two routes.
 """
 
-import time
+import datetime
 
 from flask import Flask, jsonify, redirect
 
@@ -23,7 +23,7 @@ def home():
 
 @app.route("/time", methods=["GET"])
 def server_time():
-    return jsonify(server_time=time.strftime("%H:%M:%S %d/%m/%Y"))
+    return jsonify(server_time=datetime.datetime.now())
 
 
 # Register all routes
