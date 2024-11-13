@@ -35,3 +35,30 @@ def get_player_by_name(player_name):
     db.close()
 
     return jsonify(player)
+
+
+@players_blueprint.route("/<int:player_id>/worlds", methods=["GET"])
+def get_player_worlds(player_id):
+    db = get_db_connection()
+    with db.cursor() as cursor:
+        cursor.callproc("get_player_worlds", (player_id,))
+        worlds = cursor.fetchall()
+    db.close()
+
+    return jsonify(worlds)
+
+
+@players_blueprint.route("/<int:player_id>/cities", methods=["GET"])
+def get_player_cities(player_id):
+    world = request.args.get("world")
+
+    if not world:
+        return jsonify({"error": "Missing 'world' parameter"}), 400
+
+    db = get_db_connection()
+    with db.cursor() as cursor:
+        cursor.callproc("get_player_cities", (player_id,))
+        cities = cursor.fetchall()
+    db.close()
+
+    return jsonify(cities)
