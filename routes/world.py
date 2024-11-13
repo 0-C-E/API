@@ -49,11 +49,22 @@ def get_players_in_world(world_id):
 
 
 @worlds_blueprint.route("/<int:world_id>/islands", methods=["GET"])
-def get_world_islands(world_id):
+def get_islands_in_world(world_id):
     db = get_db_connection()
     with db.cursor() as cursor:
-        cursor.callproc("get_world_islands", (world_id,))
+        cursor.callproc("get_islands_in_world", (world_id,))
         islands = cursor.fetchall()
     db.close()
 
     return jsonify(islands)
+
+
+@worlds_blueprint.route("/<int:world_id>/cities", methods=["GET"])
+def get_cities_in_world(world_id):
+    db = get_db_connection()
+    with db.cursor() as cursor:
+        cursor.callproc("get_cities_in_world", (world_id,))
+        cities = cursor.fetchall()
+    db.close()
+
+    return jsonify(cities)
