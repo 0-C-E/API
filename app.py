@@ -35,8 +35,8 @@ register_routes(app)
 def add_status(response):
     if response.is_json:
         original_data = response.get_json()
-        original_data["success"] = response.status_code == 200
-        response.set_data(jsonify(original_data).data)
+        new_response = {"success": response.status_code == 200, "data": original_data}
+        response.set_data(jsonify(new_response).data)
     return response
 
 
