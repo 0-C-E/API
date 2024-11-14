@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+
 from db import get_db_connection
 
 players_blueprint = Blueprint("players", __name__)
