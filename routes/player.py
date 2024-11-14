@@ -69,3 +69,14 @@ def get_player_cities(player_id):
     db.close()
 
     return jsonify(cities)
+
+
+@players_blueprint.route("/<int:player_id>/battles", methods=["GET"])
+def get_player_battles(player_id):
+    db = get_db_connection()
+    with db.cursor() as cursor:
+        cursor.callproc("get_player_battles", (player_id,))
+        battles = cursor.fetchall()
+    db.close()
+
+    return jsonify(battles)
