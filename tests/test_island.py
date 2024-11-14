@@ -3,9 +3,7 @@ from unittest.mock import patch
 import pytest
 from flask import Flask
 
-from routes.island import (  # Assuming 'island' module has this blueprint
-    islands_blueprint,
-)
+from routes.island import islands_blueprint
 
 
 # Create a Flask app with the blueprint for testing

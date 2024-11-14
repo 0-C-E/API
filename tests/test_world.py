@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 from flask import Flask
 
-from routes.world import worlds_blueprint  # Assuming 'world' module has this blueprint
+from routes.world import worlds_blueprint
 
 
 # Create a Flask app with the blueprint for testing
