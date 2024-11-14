@@ -51,17 +51,17 @@ def get_player_worlds(player_id):
 
 @players_blueprint.route("/<int:player_id>/cities", methods=["GET"])
 def get_player_cities(player_id):
-    world = request.args.get("world")
+    world_id = request.args.get("world_id")
 
-    if not world:
-        return jsonify({"error": "Missing 'world' parameter"}), 400
+    if not world_id:
+        return jsonify({"error": "Missing 'world_id' parameter"}), 400
 
     db = get_db_connection()
     with db.cursor() as cursor:
         cursor.callproc(
             "get_player_cities",
             (
-                world,
+                world_id,
                 player_id,
             ),
         )
