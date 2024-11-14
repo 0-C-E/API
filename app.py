@@ -5,11 +5,15 @@ Date: 2024-11-11
 Description: This file contains a simple Flask application with two routes.
 """
 
-import time
+import datetime
 
 from flask import Flask, jsonify, redirect
 
+from config import Config
+from routes import register_routes
+
 app = Flask(__name__)
+app.config.from_object(Config)
 
 
 @app.route("/", methods=["GET"])
@@ -19,15 +23,23 @@ def home():
 
 @app.route("/time", methods=["GET"])
 def server_time():
-    return jsonify(server_time=time.strftime("%H:%M:%S %d/%m/%Y"))
+    return jsonify(server_time=datetime.datetime.now().isoformat())
 
 
+# Register all routes
+register_routes(app)
+
+
+# Add a status field to all JSON responses
 @app.after_request
 def add_status(response):
     if response.is_json:
         original_data = response.get_json()
-        original_data["success"] = response.status_code == 200
-        response.set_data(jsonify(original_data).data)
+        new_response = {
+            "success": response.status_code == 200,
+            "data": original_data if original_data != [] else None,
+        }
+        response.set_data(jsonify(new_response).data)
     return response
 
 
