@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+
 from db import get_db_connection
 
 cities_blueprint = Blueprint("cities", __name__)
@@ -9,10 +10,10 @@ def get_all_cities():
     db = get_db_connection()
     with db.cursor() as cursor:
         cursor.callproc("get_all_cities")
-        player = cursor.fetchall()
+        cities = cursor.fetchall()
     db.close()
 
-    return jsonify(player)
+    return jsonify(cities)
 
 
 @cities_blueprint.route("/<int:city_id>", methods=["GET"])
@@ -24,3 +25,14 @@ def get_city_by_id(city_id):
     db.close()
 
     return jsonify(city)
+
+
+@cities_blueprint.route("/<int:city_id>/buildings", methods=["GET"])
+def get_city_buildings(city_id):
+    db = get_db_connection()
+    with db.cursor() as cursor:
+        cursor.callproc("get_city_buildings", (city_id,))
+        buildings = cursor.fetchall()
+    db.close()
+
+    return jsonify(buildings)
