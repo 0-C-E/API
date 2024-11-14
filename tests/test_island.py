@@ -11,6 +11,7 @@ from routes.island import islands_blueprint
 def app():
     app = Flask(__name__)
     app.register_blueprint(islands_blueprint, url_prefix="/islands")
+    app.config["TESTING"] = True
     return app
 
 

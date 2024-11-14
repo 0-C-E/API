@@ -3,9 +3,7 @@ from unittest.mock import patch
 import pytest
 from flask import Flask
 
-from routes.battle import (  # Assuming 'battle' module has this blueprint
-    battles_blueprint,
-)
+from routes.battle import battles_blueprint
 
 
 # Create a Flask app with the blueprint for testing
@@ -13,6 +11,7 @@ from routes.battle import (  # Assuming 'battle' module has this blueprint
 def app():
     app = Flask(__name__)
     app.register_blueprint(battles_blueprint, url_prefix="/battles")
+    app.config["TESTING"] = True
     return app
 
 

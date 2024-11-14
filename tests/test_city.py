@@ -11,6 +11,7 @@ from routes.city import cities_blueprint
 def app():
     app = Flask(__name__)
     app.register_blueprint(cities_blueprint, url_prefix="/cities")
+    app.config["TESTING"] = True
     return app
 
 

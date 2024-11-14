@@ -11,6 +11,7 @@ from routes.building import buildings_blueprint
 def app():
     app = Flask(__name__)
     app.register_blueprint(buildings_blueprint, url_prefix="/buildings")
+    app.config["TESTING"] = True
     return app
 
 

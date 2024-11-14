@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 from flask import Flask
@@ -19,14 +19,13 @@ def client(app):
     return app.test_client()
 
 
-def mock_db_response(mock_get_db, data=None, fetchone=False):
-    mock_connection = MagicMock()
-    mock_cursor = mock_connection.cursor.return_value.__enter__.return_value
+# Utility function to mock database responses
+def mock_db_response(mock_get_db, data, fetchone=False):
+    mock_cursor = mock_get_db.return_value.cursor.return_value.__enter__.return_value
     if fetchone:
         mock_cursor.fetchone.return_value = data
     else:
         mock_cursor.fetchall.return_value = data
-    mock_get_db.return_value = mock_connection
 
 
 @patch("routes.player.get_db_connection")

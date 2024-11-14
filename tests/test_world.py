@@ -11,6 +11,7 @@ from routes.world import worlds_blueprint
 def app():
     app = Flask(__name__)
     app.register_blueprint(worlds_blueprint, url_prefix="/worlds")
+    app.config["TESTING"] = True
     return app
 
 
