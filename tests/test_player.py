@@ -3,98 +3,52 @@ from unittest.mock import patch
 from routes.player import players_blueprint
 from tests.conftest import mock_db_response
 
+mock_player_data = [
+    {
+        "player_id": 1,
+        "player_name": "Player1",
+        "email": "player1@example.com",
+        "gold": 100,
+        "created_at": "2023-01-01T12:00:00Z",
+        "last_login": "2023-01-02T12:00:00Z",
+    }
+]
+
 
 # Test get_all_players endpoint
 @patch("routes.player.get_db_connection")
 def test_get_all_players(mock_get_db, client):
-    mock_db_response(
-        mock_get_db,
-        [
-            {
-                "player_id": 1,
-                "player_name": "Player1",
-                "email": "player1@example.com",
-                "gold": 100,
-                "created_at": "2023-01-01T12:00:00Z",
-                "last_login": "2023-01-02T12:00:00Z",
-            }
-        ],
-    )
+    mock_db_response(mock_get_db, mock_player_data)
 
     response = client(players_blueprint).get("/players")
     json_data = response.get_json(force=True)
 
     assert response.status_code == 200
-    assert json_data == [
-        {
-            "player_id": 1,
-            "player_name": "Player1",
-            "email": "player1@example.com",
-            "gold": 100,
-            "created_at": "2023-01-01T12:00:00Z",
-            "last_login": "2023-01-02T12:00:00Z",
-        }
-    ]
+    assert json_data == mock_player_data
 
 
 # Test get_player_by_id endpoint
 @patch("routes.player.get_db_connection")
 def test_get_player_by_id(mock_get_db, client):
-    mock_db_response(
-        mock_get_db,
-        {
-            "player_id": 1,
-            "player_name": "Player1",
-            "email": "player1@example.com",
-            "gold": 100,
-            "created_at": "2023-01-01T12:00:00Z",
-            "last_login": "2023-01-02T12:00:00Z",
-        },
-        fetchone=True,
-    )
+    mock_db_response(mock_get_db, mock_player_data[0], fetchone=True)
 
     response = client(players_blueprint).get("/players/1")
     json_data = response.get_json(force=True)
 
     assert response.status_code == 200
-    assert json_data == {
-        "player_id": 1,
-        "player_name": "Player1",
-        "email": "player1@example.com",
-        "gold": 100,
-        "created_at": "2023-01-01T12:00:00Z",
-        "last_login": "2023-01-02T12:00:00Z",
-    }
+    assert json_data == mock_player_data[0]
 
 
 # Test get_player_by_name endpoint
 @patch("routes.player.get_db_connection")
 def test_get_player_by_name(mock_get_db, client):
-    mock_db_response(
-        mock_get_db,
-        {
-            "player_id": 1,
-            "player_name": "Player1",
-            "email": "player1@example.com",
-            "gold": 100,
-            "created_at": "2023-01-01T12:00:00Z",
-            "last_login": "2023-01-02T12:00:00Z",
-        },
-        fetchone=True,
-    )
+    mock_db_response(mock_get_db, mock_player_data[0], fetchone=True)
 
     response = client(players_blueprint).get("/players/Player1")
     json_data = response.get_json(force=True)
 
     assert response.status_code == 200
-    assert json_data == {
-        "player_id": 1,
-        "player_name": "Player1",
-        "email": "player1@example.com",
-        "gold": 100,
-        "created_at": "2023-01-01T12:00:00Z",
-        "last_login": "2023-01-02T12:00:00Z",
-    }
+    assert json_data == mock_player_data[0]
 
 
 # Test get_player_worlds endpoint
