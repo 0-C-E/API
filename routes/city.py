@@ -36,3 +36,14 @@ def get_city_buildings(city_id):
     db.close()
 
     return jsonify(buildings)
+
+
+@cities_blueprint.route("/<int:city_id>/units", methods=["GET"])
+def get_city_units(city_id):
+    db = get_db_connection()
+    with db.cursor() as cursor:
+        cursor.callproc("get_city_units", (city_id,))
+        units = cursor.fetchall()
+    db.close()
+
+    return jsonify(units)
