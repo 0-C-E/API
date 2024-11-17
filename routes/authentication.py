@@ -16,7 +16,7 @@ ph = PasswordHasher()
 
 def hash_password_with_salt_and_pepper(password: str) -> tuple[str, bytes]:
     salt = os.urandom(16)
-    pepper = os.getenv("PEPPER").encode("utf-8")
+    pepper = os.getenv("PEPPER", "SuperSecretPepper").encode("utf-8")
     seasoned_password = password.encode("utf-8") + salt + pepper
     return ph.hash(seasoned_password), salt
 
