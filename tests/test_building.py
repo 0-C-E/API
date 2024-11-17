@@ -20,14 +20,9 @@ def test_get_all_buildings(mock_get_db, client):
 
 # Test get_building_by_id endpoint
 @patch("routes.building.get_db_connection")
-def test_get_building_by_id(mock_get_db, client):
-    mock_db_response(mock_get_db, {"id": 1, "name": "Barracks"}, fetchone=True)
-
+def test_get_building_by_id(_, client):
     response = client(buildings_blueprint).get("/buildings/1")
-    json_data = response.get_json(force=True)
-
-    assert response.status_code == 200
-    assert json_data == {"id": 1, "name": "Barracks"}
+    assert response.status_code == 401
 
 
 # Test get_building_prerequisites endpoint

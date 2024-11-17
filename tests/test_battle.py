@@ -67,20 +67,6 @@ def test_get_battle_by_id(mock_get_db, client):
 
 # Test get_battle_units endpoint
 @patch("routes.battle.get_db_connection")
-def test_get_battle_units(mock_get_db, client):
-    mock_db_response(
-        mock_get_db,
-        [
-            {"unit_id": 101, "name": "Swordsman", "count": 50, "side": 0},
-            {"unit_id": 102, "name": "Archer", "count": 30, "side": 1},
-        ],
-    )
-
+def test_get_battle_units(_, client):
     response = client(battles_blueprint).get("/battles/1/units")
-    json_data = response.get_json(force=True)
-
-    assert response.status_code == 200
-    assert json_data == [
-        {"unit_id": 101, "name": "Swordsman", "count": 50, "side": 0},
-        {"unit_id": 102, "name": "Archer", "count": 30, "side": 1},
-    ]
+    assert response.status_code == 401

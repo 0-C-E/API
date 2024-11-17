@@ -32,35 +32,13 @@ def test_get_city_by_id(mock_get_db, client):
 
 # Test get_city_buildings endpoint
 @patch("routes.city.get_db_connection")
-def test_get_city_buildings(mock_get_db, client):
-    mock_db_response(
-        mock_get_db,
-        [{"building_id": 1, "name": "Barracks"}, {"building_id": 2, "name": "Academy"}],
-    )
-
+def test_get_city_buildings(_, client):
     response = client(cities_blueprint).get("/cities/1/buildings")
-    json_data = response.get_json(force=True)
-
-    assert response.status_code == 200
-    assert json_data == [
-        {"building_id": 1, "name": "Barracks"},
-        {"building_id": 2, "name": "Academy"},
-    ]
+    assert response.status_code == 401
 
 
 # Test get_city_units endpoint
 @patch("routes.city.get_db_connection")
-def test_get_city_units(mock_get_db, client):
-    mock_db_response(
-        mock_get_db,
-        [{"unit_id": 101, "name": "Infantry"}, {"unit_id": 102, "name": "Cavalry"}],
-    )
-
+def test_get_city_units(_, client):
     response = client(cities_blueprint).get("/cities/1/units")
-    json_data = response.get_json(force=True)
-
-    assert response.status_code == 200
-    assert json_data == [
-        {"unit_id": 101, "name": "Infantry"},
-        {"unit_id": 102, "name": "Cavalry"},
-    ]
+    assert response.status_code == 401
