@@ -45,5 +45,11 @@ def add_status(response):
     return response
 
 
+@app.after_request
+def add_common_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    return response
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

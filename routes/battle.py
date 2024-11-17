@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 
 from db import get_db_connection
+from jwt_helper import token_required
 
 battles_blueprint = Blueprint("battles", __name__)
 
@@ -28,6 +29,7 @@ def get_battle_by_id(battle_id):
 
 
 @battles_blueprint.route("/<int:battle_id>/units", methods=["GET"])
+@token_required
 def get_battle_units(battle_id):
     db = get_db_connection()
     with db.cursor() as cursor:
