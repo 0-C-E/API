@@ -36,7 +36,7 @@ def add_status(response):
     if response.is_json:
         original_data = response.get_json()
         new_response = {
-            "success": response.status_code == 200,
+            "success": response.status_code in range(200, 300),
             "data": original_data if original_data != [] else None,
         }
         response.set_data(jsonify(new_response).data)

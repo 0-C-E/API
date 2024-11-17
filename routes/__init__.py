@@ -1,3 +1,4 @@
+from .authentication import authentication_blueprint
 from .battle import battles_blueprint
 from .building import buildings_blueprint
 from .city import cities_blueprint
@@ -8,6 +9,7 @@ from .world import worlds_blueprint
 
 
 def register_routes(app):
+    app.register_blueprint(authentication_blueprint, url_prefix="/auth")
     app.register_blueprint(battles_blueprint, url_prefix="/battles")
     app.register_blueprint(buildings_blueprint, url_prefix="/buildings")
     app.register_blueprint(cities_blueprint, url_prefix="/cities")

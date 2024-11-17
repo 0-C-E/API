@@ -9,4 +9,3 @@ __pycache__
 # Ignore local development files
 *.pyc
 .DS_Store
-.env
