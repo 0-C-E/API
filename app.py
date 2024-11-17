@@ -8,12 +8,14 @@ Description: This file contains a simple Flask application with two routes.
 import datetime
 
 from flask import Flask, jsonify, redirect
+from flask_cors import CORS
 
 from config import Config
 from routes import register_routes
 
 app = Flask(__name__)
 app.config.from_object(Config)
+CORS(app)
 
 
 @app.route("/", methods=["GET"])
