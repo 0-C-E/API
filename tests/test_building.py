@@ -19,8 +19,7 @@ def test_get_all_buildings(mock_get_db, client):
 
 
 # Test get_building_by_id endpoint
-@patch("routes.building.get_db_connection")
-def test_get_building_by_id(_, client):
+def test_get_building_by_id(client):
     response = client(buildings_blueprint).get("/buildings/1")
     assert response.status_code == 401
 

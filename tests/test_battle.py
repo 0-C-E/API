@@ -66,7 +66,6 @@ def test_get_battle_by_id(mock_get_db, client):
 
 
 # Test get_battle_units endpoint
-@patch("routes.battle.get_db_connection")
-def test_get_battle_units(_, client):
+def test_get_battle_units(client):
     response = client(battles_blueprint).get("/battles/1/units")
     assert response.status_code == 401

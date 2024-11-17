@@ -31,14 +31,12 @@ def test_get_city_by_id(mock_get_db, client):
 
 
 # Test get_city_buildings endpoint
-@patch("routes.city.get_db_connection")
-def test_get_city_buildings(_, client):
+def test_get_city_buildings(client):
     response = client(cities_blueprint).get("/cities/1/buildings")
     assert response.status_code == 401
 
 
 # Test get_city_units endpoint
-@patch("routes.city.get_db_connection")
-def test_get_city_units(_, client):
+def test_get_city_units(client):
     response = client(cities_blueprint).get("/cities/1/units")
     assert response.status_code == 401
