@@ -94,17 +94,3 @@ def login():
             return jsonify(message="Login successful"), 200
         except exceptions.VerifyMismatchError:
             return jsonify(message="Invalid credentials"), 401
-
-
-@authentication_blueprint.route("/test", methods=["POST"])
-def get_player_by_email():
-    data = request.get_json()
-    email = data.get("email")
-
-    db = get_db_connection()
-    with db.cursor() as cursor:
-        cursor.callproc("login_player", (email,))
-        player = cursor.fetchone()
-    db.close()
-
-    return jsonify(player)
