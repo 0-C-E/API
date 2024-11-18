@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 
 from db import get_db_connection
+from jwt_helper import token_required
 
 cities_blueprint = Blueprint("cities", __name__)
 
@@ -28,6 +29,7 @@ def get_city_by_id(city_id):
 
 
 @cities_blueprint.route("/<int:city_id>/buildings", methods=["GET"])
+@token_required
 def get_city_buildings(city_id):
     db = get_db_connection()
     with db.cursor() as cursor:
@@ -39,6 +41,7 @@ def get_city_buildings(city_id):
 
 
 @cities_blueprint.route("/<int:city_id>/units", methods=["GET"])
+@token_required
 def get_city_units(city_id):
     db = get_db_connection()
     with db.cursor() as cursor:

@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 
 from db import get_db_connection
+from jwt_helper import token_required
 
 players_blueprint = Blueprint("players", __name__)
 
@@ -72,6 +73,7 @@ def get_player_cities(player_id):
 
 
 @players_blueprint.route("/<int:player_id>/battles", methods=["GET"])
+@token_required
 def get_player_battles(player_id):
     db = get_db_connection()
     with db.cursor() as cursor:
