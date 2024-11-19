@@ -58,8 +58,11 @@ def register():
             cursor.callproc("register_player", (name, email, hashed_password, salt))
             db.commit()
         except MySQLError as e:
-            if e.args[0] == 1644:
-                return jsonify(message="Email already in use"), 400
+            # Check for specific error messages in the SQL error
+            if "Player name already exists" in str(e):
+                return jsonify(message="Player name already exists"), 400
+            elif "Email already exists" in str(e):
+                return jsonify(message="Email already exists"), 400
             else:
                 return jsonify(message="An error occurred during registration"), 500
 
