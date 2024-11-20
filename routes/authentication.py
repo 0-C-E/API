@@ -14,12 +14,12 @@ load_dotenv()
 
 authentication_blueprint = Blueprint("authentication", __name__)
 ph = PasswordHasher()
+PEPPER = os.getenv("PEPPER", "SuperSecretPepper").encode("utf-8")
 
 
 def hash_password_with_salt_and_pepper(password: str) -> tuple[str, bytes]:
     salt = os.urandom(16)
-    pepper = os.getenv("PEPPER", "SuperSecretPepper").encode("utf-8")
-    seasoned_password = password.encode("utf-8") + salt + pepper
+    seasoned_password = password.encode("utf-8") + salt + PEPPER
     return ph.hash(seasoned_password), salt
 
 
@@ -93,8 +93,7 @@ def login():
         player_id = player["player_id"]
         stored_password = player["hashed_password"]
         salt = player["salt"]
-        pepper = os.getenv("PEPPER").encode("utf-8")
-        seasoned_password = password.encode("utf-8") + salt + pepper
+        seasoned_password = password.encode("utf-8") + salt + PEPPER
 
         try:
             ph.verify(stored_password, seasoned_password)
