@@ -8,11 +8,11 @@ from pymysql import MySQLError
 
 from db import get_db_connection
 from jwt_helper import (
+    TokenError,
+    extract_token_from_header,
     generate_access_token,
     generate_refresh_token,
     verify_token,
-    extract_token_from_header,
-    TokenError,
 )
 
 load_dotenv()
@@ -117,7 +117,7 @@ def login():
 def refresh_token():
     try:
         token = extract_token_from_header()
-        decoded = verify_token(token)
+        decoded = verify_token(token, required_type="refresh")
         player_id = decoded["player_id"]
 
         new_access_token = generate_access_token(player_id)

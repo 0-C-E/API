@@ -55,12 +55,15 @@ def extract_token_from_header() -> str:
     return auth_header.split("Bearer ")[1]
 
 
-def verify_token(token: str) -> dict:
+def verify_token(token: str, required_type: str) -> dict:
     """
     Verify and decode a JWT token.
     """
     try:
-        return jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        if decoded.get("token_type") != required_type:
+            raise jwt.InvalidTokenError("Invalid token type")
+        return decoded
     except jwt.ExpiredSignatureError:
         raise TokenError("Token has expired", 401)
     except jwt.InvalidTokenError:
@@ -76,7 +79,7 @@ def token_required(f):
     def decorated(*args, **kwargs):
         try:
             token = extract_token_from_header()
-            decoded = verify_token(token)
+            decoded = verify_token(token, required_type="access")
             request.player_id = decoded["player_id"]
             return f(*args, **kwargs)
         except TokenError as e:
