@@ -29,6 +29,7 @@ def generate_access_token(player_id: int) -> str:
         "player_id": player_id,
         "exp": datetime.now(timezone.utc) + ACCESS_TOKEN_EXPIRY,  # Expiration
         "iat": datetime.now(timezone.utc),  # Issued at
+        "token_type": "access",
     }
     return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
@@ -41,6 +42,7 @@ def generate_refresh_token(player_id: int) -> str:
         "player_id": player_id,
         "exp": datetime.now(timezone.utc) + REFRESH_TOKEN_EXPIRY,
         "iat": datetime.now(timezone.utc),
+        "token_type": "refresh",
     }
     return jwt.encode(payload, SECRET_KEY, algorithm="HS256")
 
