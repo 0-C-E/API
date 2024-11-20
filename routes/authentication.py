@@ -1,7 +1,6 @@
 import os
 from re import match
 
-import jwt
 from argon2 import PasswordHasher, exceptions
 from dotenv import load_dotenv
 from flask import Blueprint, jsonify, request
