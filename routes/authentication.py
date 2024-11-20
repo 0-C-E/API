@@ -8,7 +8,13 @@ from flask import Blueprint, jsonify, request
 from pymysql import MySQLError
 
 from db import get_db_connection
-from jwt_helper import generate_access_token, generate_refresh_token, verify_token
+from jwt_helper import (
+    generate_access_token,
+    generate_refresh_token,
+    verify_token,
+    extract_token_from_header,
+    TokenError,
+)
 
 load_dotenv()
 
@@ -110,23 +116,12 @@ def login():
 
 @authentication_blueprint.route("/refresh", methods=["POST"])
 def refresh_token():
-    auth_header = request.headers.get("Authorization")
-
-    if not auth_header or not auth_header.startswith("Bearer "):
-        return (
-            jsonify(message="Refresh token is required in the Authorization header"),
-            400,
-        )
-
-    refresh_token = auth_header.split("Bearer ")[1]
-
     try:
-        decoded = verify_token(refresh_token)
+        token = extract_token_from_header()
+        decoded = verify_token(token)
         player_id = decoded["player_id"]
 
         new_access_token = generate_access_token(player_id)
         return jsonify(access_token=new_access_token), 200
-    except jwt.ExpiredSignatureError:
-        return jsonify(message="Refresh token has expired, please log in again"), 401
-    except jwt.InvalidTokenError:
-        return jsonify(message="Invalid refresh token"), 401
+    except TokenError as e:
+        return jsonify(message=e.message), e.status_code
