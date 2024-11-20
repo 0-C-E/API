@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify, request
 from pymysql import MySQLError
 
 from db import get_db_connection
-from jwt_helper import generate_access_token, generate_refresh_token
+from jwt_helper import generate_access_token, generate_refresh_token, verify_token
 
 load_dotenv()
 
@@ -121,11 +121,7 @@ def refresh_token():
     refresh_token = auth_header.split("Bearer ")[1]
 
     try:
-        decoded = jwt.decode(
-            refresh_token,
-            os.getenv("SECRET_JWT_KEY", "SuperSecretKey"),
-            algorithms=["HS256"],
-        )
+        decoded = verify_token(refresh_token)
         player_id = decoded["player_id"]
 
         new_access_token = generate_access_token(player_id)

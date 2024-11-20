@@ -32,6 +32,13 @@ def generate_refresh_token(player_id: int) -> str:
 
 def verify_token(token: str) -> dict | None:
     """Verify a JWT token and return the payload."""
+    token = request.headers.get("Authorization")
+
+    if not token or not token.startswith("Bearer "):
+        return jsonify(message="Token is missing or improperly formatted"), 401
+
+    token = token.split("Bearer ")[1]
+
     try:
         return jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
     except jwt.ExpiredSignatureError:
