@@ -10,12 +10,15 @@ import datetime
 from flask import Flask, jsonify, redirect
 from flask_cors import CORS
 
-from config import Config
+from config import Config, limiter
 from routes import register_routes
 
 app = Flask(__name__)
 app.config.from_object(Config)
 CORS(app)
+
+if app.config["TESTING"]:
+    limiter.enabled = False
 
 
 @app.route("/", methods=["GET"])
@@ -49,6 +52,20 @@ def add_status(response):
 def add_common_headers(response):
     response.headers["X-Content-Type-Options"] = "nosniff"
     return response
+
+
+@app.errorhandler(429)
+def ratelimit_error(e):
+    return (
+        jsonify(
+            {
+                "error": "Too many requests",
+                "message": "Rate limit exceeded. Please try again later.",
+                "rate_limit": e.description,
+            }
+        ),
+        429,
+    )
 
 
 if __name__ == "__main__":
